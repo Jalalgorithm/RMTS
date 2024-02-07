@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RMTS.ApiModel.Company;
+using RMTS.ApiModel.Job;
 using RMTS.Model;
 
 namespace RMTS.AutoMapper
@@ -10,6 +11,10 @@ namespace RMTS.AutoMapper
         {
             CreateMap<CompanyCreateDto, Company>();
             CreateMap<Company, CompanyGetDto>();
+
+            CreateMap<JobCreateDto, Job>();
+            CreateMap<Job, JobGetDto>()
+                .ForMember(des => des.CompanyName, opt => opt.MapFrom(src => src.Company.Name));
         }
     }
 }

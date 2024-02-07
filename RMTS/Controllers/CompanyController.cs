@@ -58,7 +58,10 @@ namespace RMTS.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {
-            var company = await _context.Companies.FindAsync(id);
+            var company = await _context.Companies
+                .Include(x=>x.Jobs)
+                .FirstOrDefaultAsync(x=>x.Id==id);
+             
 
              _context.Companies.Remove(company);
             await _context.SaveChangesAsync();
