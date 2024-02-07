@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="ApiModel\Candidate\" />
+    <Folder Include="documents\pdfs\" />
   </ItemGroup>
 
 </Project>
