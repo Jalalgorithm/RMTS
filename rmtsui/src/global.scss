@@ -8,10 +8,10 @@
   box-sizing: border-box;
   font-family: Arial, Helvetica, sans-serif;
 }
-.root {
+:root {
   --blue: #4864ff;
   --bg-color: #fff;
-  --text-color1: #0000;
+  --text-color1: #000;
   --text-color2: #555;
 }
 a {
@@ -34,9 +34,10 @@ ul {
 .app {
   color: var(--text-color1);
   background-color: var(--bg-color);
+  transition: all 0.3s ease-in-out;
 
   &.dark {
-    --bg-color: #0000;
+    --bg-color: #000;
     --text-color1: #fff;
     --text-color2: #999;
   }
