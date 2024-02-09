@@ -7,6 +7,7 @@ import CustomLinearProgress from "./components/custom-linear-progress/customerli
 
 const Home = lazy(() => import("./pages/home/home.page"));
 const Companies = lazy(() => import("./pages/companies/companies.page"));
+const AddCompany = lazy(() => import("./pages/companies/addcompany"));
 
 const App = () => {
   const { darkMode } = useContext(ThemeContext);
@@ -21,6 +22,7 @@ const App = () => {
             <Route path="/" element={<Home />} />
             <Route path="/companies">
               <Route index element={<Companies />} />
+              <Route path="add" element={<AddCompany />} />
             </Route>
           </Routes>
         </Suspense>

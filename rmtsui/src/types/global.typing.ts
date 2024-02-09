@@ -5,3 +5,9 @@ export interface ICompany {
   description: string;
   createdAt: string;
 }
+
+export interface ICreateCompany {
+  name: string;
+  size: string;
+  description: string;
+}
