@@ -11,3 +11,19 @@ export interface ICreateCompany {
   size: string;
   description: string;
 }
+
+export interface IJob {
+  id: string;
+  title: string;
+  level: string;
+  companyName: string;
+  jobDescription: string;
+  companyId: string;
+}
+
+export interface ICreateJob {
+  title: string;
+  level: string;
+  jobDescription: string;
+  companyId: string;
+}
