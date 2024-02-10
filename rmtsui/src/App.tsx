@@ -10,6 +10,10 @@ const Companies = lazy(() => import("./pages/companies/companies.page"));
 const AddCompany = lazy(() => import("./pages/companies/addcompany"));
 const Jobs = lazy(() => import("./jobs/jobs.page"));
 const AddJob = lazy(() => import("./jobs/addjob"));
+const Candidates = lazy(() => import("./pages/candidates/candidates.page"));
+const AddCandidate = lazy(
+  () => import("./pages/candidates/addcandidates.page")
+);
 
 const App = () => {
   const { darkMode } = useContext(ThemeContext);
@@ -29,6 +33,10 @@ const App = () => {
             <Route path="/jobs">
               <Route index element={<Jobs />} />
               <Route path="add" element={<AddJob />} />
+            </Route>
+            <Route path="/candidates">
+              <Route index element={<Candidates />} />
+              <Route path="add" element={<AddCandidate />} />
             </Route>
           </Routes>
         </Suspense>

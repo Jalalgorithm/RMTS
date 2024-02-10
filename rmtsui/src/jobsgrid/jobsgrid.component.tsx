@@ -1,3 +1,4 @@
+import "./jobs-grid.scss";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import moment from "moment";

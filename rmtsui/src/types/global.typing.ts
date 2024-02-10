@@ -27,3 +27,24 @@ export interface ICreateJob {
   jobDescription: string;
   companyId: string;
 }
+
+export interface ICandidate {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  coverLetter: string;
+  resumeUrl: string;
+  jobId: string;
+  jobTitle: string;
+}
+
+export interface ICreateCandidate {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  coverLetter: string;
+  jobId: string;
+}

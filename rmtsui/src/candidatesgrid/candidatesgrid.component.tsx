@@ -1,24 +1,25 @@
-import "./companies-grid.scss";
+import "./candidates-grid.scss";
 import { Box, Button } from "@mui/material";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import moment from "moment";
-import { ICompany } from "../types/global.typing";
+import { ICandidate } from "../types/global.typing";
 import { useNavigate } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import httpModule from "../helpers/http.module";
 import { useEffect, useState } from "react";
+import { PictureAsPdf } from "@mui/icons-material";
+import { baseUrl } from "../constants/url.constant";
 
-interface ICompaniesGridProps {
-  data: ICompany[];
+interface ICandidatesGridProps {
+  data: ICandidate[];
 }
 
-const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
-  const [rows, setRows] = useState<ICompany[]>([]);
+const CandidatesGrid = ({ data }: ICandidatesGridProps) => {
+  const [rows, setRows] = useState<ICandidate[]>([]);
 
   useEffect(() => {
     httpModule
-      .get<ICompany[]>("/Company/Get")
+      .get<ICandidate[]>("/Candidate/GetCandidate")
       .then((response) => {
         setRows(response.data);
       })
@@ -31,7 +32,7 @@ const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
   const redirect = useNavigate();
 
   const handleEditClick = (id: number) => {
-    redirect("/companies/Update/" + id);
+    redirect("/Candidate/Update/" + id);
   };
 
   const handleDeleteClick = (id: number) => {
@@ -40,10 +41,10 @@ const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
     }
 
     httpModule
-      .delete<ICompany>("/Company/" + id)
+      .delete<ICandidate>("/Candidate/" + id)
       .then(() => {
         httpModule
-          .get<ICompany[]>("/Company/Get")
+          .get<ICandidate[]>("/Candidate/GetCandidate")
           .then((response) => {
             setRows(response.data);
           })
@@ -57,20 +58,27 @@ const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
         console.log(error);
       });
 
-    redirect("/companies");
+    redirect("/candidates");
   };
 
   const column: GridColDef[] = [
     { field: "id", headerName: "ID", width: 100 },
-    { field: "name", headerName: "Name", width: 300 },
-    { field: "description", headerName: "Description", width: 400 },
-    { field: "size", headerName: "Size", width: 150 },
-    {
-      field: "createdAt",
-      headerName: "Creation Time",
-      width: 200,
+    { field: "firstName", headerName: "First Name", width: 120 },
+    { field: "lastName", headerName: "Last Name", width: 120 },
+    { field: "email", headerName: "Email", width: 150 },
+    { field: "phone", headerName: "Phone", width: 150 },
+    { field: "coverLetter", headerName: "CV", width: 150 },
 
-      renderCell: (params) => moment(params.row.createdAt).format("YYYY-MM-DD"),
+    {
+      field: "resumeUrl",
+      headerName: "Download",
+      width: 100,
+
+      renderCell: (params) => (
+        <a href={`${baseUrl}/Candidate/download/${params.row.url}`} download>
+          <PictureAsPdf />
+        </a>
+      ),
     },
     {
       field: "edit",
@@ -98,7 +106,7 @@ const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
   ];
 
   return (
-    <Box sx={{ width: "100%", height: 450 }} className="companies-grid">
+    <Box sx={{ width: "100%", height: 450 }} className="candidates-grid">
       <DataGrid
         rows={rows}
         columns={column}
@@ -109,4 +117,4 @@ const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
   );
 };
 
-export default CompaniesGrid;
+export default CandidatesGrid;
