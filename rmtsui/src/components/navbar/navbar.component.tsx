@@ -10,6 +10,8 @@ const links = [
   { href: "/companies", label: "Companies" },
   { href: "/jobs", label: "Jobs" },
   { href: "/candidates", label: "Candidate" },
+  { href: "/login", label: "Login" },
+  { href: "/signup", label: "SignUp" },
 ];
 
 const Navbar = () => {

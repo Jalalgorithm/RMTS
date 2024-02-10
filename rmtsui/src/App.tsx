@@ -4,6 +4,8 @@ import { ThemeContext } from "./context/theme.context";
 import Navbar from "./components/navbar/navbar.component";
 import { Route, Routes } from "react-router-dom";
 import CustomLinearProgress from "./components/custom-linear-progress/customerlinearprogress.component";
+import LogIn from "./login/login.page";
+import SignUp from "./signup/signup.page";
 
 const Home = lazy(() => import("./pages/home/home.page"));
 const Companies = lazy(() => import("./pages/companies/companies.page"));
@@ -38,6 +40,8 @@ const App = () => {
               <Route index element={<Candidates />} />
               <Route path="add" element={<AddCandidate />} />
             </Route>
+            <Route path="/login" element={<LogIn />} />
+            <Route path="/signup" element={<SignUp />} />
           </Routes>
         </Suspense>
       </div>
