@@ -46,7 +46,13 @@ const Navbar: React.FC = () => {
         item.label === "Home"
     );
   } else if (user?.role === "Admin") {
-    filterLinks = links;
+    filterLinks = links.filter(
+      (item) =>
+        item.label === "Jobs" ||
+        item.label == "Candidate" ||
+        item.label === "Home" ||
+        item.label === "Companies"
+    );
   } else {
     filterLinks = links.filter((item) => item.label === "Home");
   }
