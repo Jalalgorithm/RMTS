@@ -1,22 +1,31 @@
-import { useContext, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./navbar.scss";
-import { Link } from "react-router-dom";
+import { Link, redirect, useNavigate } from "react-router-dom";
 import { Menu, LightMode, DarkMode } from "@mui/icons-material";
 import { ToggleButton } from "@mui/material";
 import { ThemeContext } from "../../context/theme.context";
+import { useToken } from "../tokenprovider/tokenprovider.component";
+import { useAuth } from "../authprovider/authprovider.component";
+import { link } from "fs";
 
 const links = [
-  { href: "/", label: "Home" },
+  { href: "/home", label: "Home" },
   { href: "/companies", label: "Companies" },
   { href: "/jobs", label: "Jobs" },
   { href: "/candidates", label: "Candidate" },
-  { href: "/login", label: "Login" },
-  { href: "/signup", label: "SignUp" },
+  { href: "/candidates/add", label: "AddCandidate" },
 ];
 
-const Navbar = () => {
+const Navbar: React.FC = () => {
+  const redirect = useNavigate();
+  const { user } = useAuth();
+  const { token, clearToken } = useToken();
   const [open, setOpen] = useState<boolean>(false);
   const { darkMode, toggleDarkMode } = useContext(ThemeContext);
+
+  const handleLogout = () => {
+    clearToken();
+  };
 
   const ToggleOpenMenu = () => {
     setOpen((prevState) => !prevState);
@@ -24,18 +33,65 @@ const Navbar = () => {
 
   const menuStyles = open ? "menu open" : "menu";
 
+  var filterLinks: {
+    href: string;
+    label: string;
+  }[];
+
+  if (user?.role == "Client") {
+    filterLinks = links.filter(
+      (item) =>
+        item.label === "Jobs" ||
+        item.label == "AddCandidate" ||
+        item.label === "Home"
+    );
+  } else if (user?.role === "Admin") {
+    filterLinks = links;
+  } else {
+    filterLinks = links.filter((item) => item.label === "Home");
+  }
+  // const filteredLinks =
+  //   user?.role === "Client"
+  //     ? links.filter(
+  //         (item) =>
+  //           item.label === "Jobs" ||
+  //           item.label == "AddCandidate" ||
+  //           item.label === "Home"
+  //       )
+  //     : links;
+
   return (
     <div className="navbar">
       <div className="brand">
-        <span>Nestle Resume Management System</span>
+        <span>Resume Management Tracking System</span>
       </div>
       <div className={menuStyles}>
         <ul>
-          {links.map((item) => (
+          {filterLinks.map((item) => (
             <li key={item.href} onClick={ToggleOpenMenu}>
               <Link to={item.href}>{item.label}</Link>
             </li>
           ))}
+          {token ? (
+            <li>
+              <Link to="/logout" onClick={handleLogout}>
+                Logout
+              </Link>
+            </li>
+          ) : (
+            <>
+              <li>
+                <Link to="/login" onClick={ToggleOpenMenu}>
+                  Login
+                </Link>
+              </li>
+              <li>
+                <Link to="/signup" onClick={ToggleOpenMenu}>
+                  Signup
+                </Link>
+              </li>
+            </>
+          )}
         </ul>
       </div>
       <div className="hamburger">

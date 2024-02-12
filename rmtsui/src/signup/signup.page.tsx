@@ -11,16 +11,25 @@ import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { ISignUp } from "../types/global.typing";
+import httpModule from "../helpers/http.module";
+import { useNavigate } from "react-router-dom";
 
 const SignUp = () => {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const redirect = useNavigate();
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const requestbody: ISignUp = {
+      firstName: event.currentTarget.firstName.value,
+      lastName: event.currentTarget.lastName.value,
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    };
+
+    httpModule
+      .post("/Account/Register", requestbody)
+      .then((response) => redirect("/login"))
+      .catch((error) => console.log(error));
   };
 
   return (

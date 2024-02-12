@@ -10,15 +10,34 @@ import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
+import { ILogIn } from "../types/global.typing";
+import httpModule from "../helpers/http.module";
+import { useNavigate } from "react-router-dom";
+import { useToken } from "../components/tokenprovider/tokenprovider.component";
+import { useAuth } from "../components/authprovider/authprovider.component";
 
 const LogIn = () => {
+  const { login } = useAuth();
+  const { setToken } = useToken();
+
+  const redirect = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
+    const requestbody: ILogIn = {
+      email: event.currentTarget.email.value,
+      password: event.currentTarget.password.value,
+    };
+
+    httpModule
+      .post("/Account/Login", requestbody)
+      .then((response) => {
+        const token = response.data.token;
+        setToken(token);
+        login(token);
+        redirect("/");
+      })
+      .catch((error) => console.log(error));
   };
 
   return (

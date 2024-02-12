@@ -8,12 +8,14 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import httpModule from "../helpers/http.module";
 import { useEffect, useState } from "react";
+import { useAuth } from "../components/authprovider/authprovider.component";
 
 interface IJobsGridProps {
   data: IJob[];
 }
 
 const JobsGrid = ({ data }: IJobsGridProps) => {
+  const { user } = useAuth();
   const [rows, setRows] = useState<IJob[]>([]);
 
   useEffect(() => {
@@ -97,11 +99,22 @@ const JobsGrid = ({ data }: IJobsGridProps) => {
     },
   ];
 
+  const filterColumn =
+    user?.role === "Client"
+      ? column.filter(
+          (item) =>
+            item.field === "id" ||
+            item.field === "title" ||
+            item.field === "jobDescription" ||
+            item.field === "companyName"
+        )
+      : column;
+
   return (
     <Box sx={{ width: "100%", height: 450 }} className="jobs-grid">
       <DataGrid
         rows={rows}
-        columns={column}
+        columns={filterColumn}
         getRowId={(row) => row.id}
         rowHeight={50}
       />

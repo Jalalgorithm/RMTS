@@ -48,3 +48,15 @@ export interface ICreateCandidate {
   coverLetter: string;
   jobId: string;
 }
+
+export interface ISignUp {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+}
+
+export interface ILogIn {
+  email: string;
+  password: string;
+}
