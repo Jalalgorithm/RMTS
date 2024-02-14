@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +22,7 @@ namespace RMTS.Controllers
             _mapper = mapper;
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateCompany([FromBody] CompanyCreateDto companyCreate)
         {
@@ -31,6 +33,7 @@ namespace RMTS.Controllers
             return Ok("Company Created Successfully");
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<CompanyGetDto>>> GetCompany()
         {
@@ -42,6 +45,7 @@ namespace RMTS.Controllers
 
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCompany(int id , [FromBody]CompanyCreateDto updateCompany)
         {
@@ -55,6 +59,7 @@ namespace RMTS.Controllers
 
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCompany(int id)
         {

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ namespace RMTS.Controllers
             _context = context;
             _mapper = mapper;
         }
-
+        [Authorize(Roles ="Admin")]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateJob([FromBody] JobCreateDto jobCreate)
         {
@@ -33,6 +34,7 @@ namespace RMTS.Controllers
 
         }
 
+        [Authorize]
         [HttpGet("Get")]
         public async Task<ActionResult<IEnumerable<JobGetDto>>> GetJobs()
         {
@@ -43,6 +45,7 @@ namespace RMTS.Controllers
             return Ok(convertedJobs);
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateJobs(int id , [FromBody]JobCreateDto updateJob)
         {
@@ -57,6 +60,7 @@ namespace RMTS.Controllers
             return Ok("job has been updated");
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteJob(int id)
         {

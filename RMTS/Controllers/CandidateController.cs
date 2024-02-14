@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -20,7 +21,7 @@ namespace RMTS.Controllers
             _context = context;
             _mapper = mapper;
         }
-
+        [Authorize]
         [HttpPost("Create")]
         public async Task<IActionResult> CreateCandidate([FromForm]CandidateCreateDto candidateCreate , IFormFile pdfFile )
         {
@@ -51,6 +52,7 @@ namespace RMTS.Controllers
             return Ok("Candidate have been created successfully");   
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpGet("GetCandidate")]
         public async Task<ActionResult<IEnumerable<CandidateGetDto>>> GetCandidate ()
         {
@@ -62,7 +64,7 @@ namespace RMTS.Controllers
 
             return Ok(CandidateList);   
         }
-
+        [Authorize(Roles ="Admin")]
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCandidate (int id)
         {
@@ -84,6 +86,7 @@ namespace RMTS.Controllers
             return Ok("Candidate has been deleted successfully");
         }
 
+        [Authorize(Roles ="Admin")]
         [HttpGet("{id}")]
         public async Task<ActionResult<CandidateGetDto>> GetCandidateById(int id)
         {
