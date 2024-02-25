@@ -38,18 +38,18 @@ const Navbar: React.FC = () => {
     label: string;
   }[];
 
-  if (user?.role == "Client") {
+  if (user?.role === "Client") {
     filterLinks = links.filter(
       (item) =>
         item.label === "Jobs" ||
-        item.label == "AddCandidate" ||
+        item.label === "AddCandidate" ||
         item.label === "Home"
     );
   } else if (user?.role === "Admin") {
     filterLinks = links.filter(
       (item) =>
         item.label === "Jobs" ||
-        item.label == "Candidate" ||
+        item.label === "Candidate" ||
         item.label === "Home" ||
         item.label === "Companies"
     );

@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import httpModule from "../helpers/http.module";
 import { useEffect, useState } from "react";
+import { useToken } from "../components/tokenprovider/tokenprovider.component";
 
 interface ICompaniesGridProps {
   data: ICompany[];
@@ -15,10 +16,15 @@ interface ICompaniesGridProps {
 
 const CompaniesGrid = ({ data }: ICompaniesGridProps) => {
   const [rows, setRows] = useState<ICompany[]>([]);
+  const { token } = useToken();
 
   useEffect(() => {
     httpModule
-      .get<ICompany[]>("/Company/Get")
+      .get<ICompany[]>("/Company/Get", {
+        headers: {
+          Authorization: "bearer " + token,
+        },
+      })
       .then((response) => {
         setRows(response.data);
       })

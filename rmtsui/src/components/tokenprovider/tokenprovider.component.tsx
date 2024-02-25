@@ -18,7 +18,7 @@ export const TokenProvider: React.FC<{ children: ReactNode }> = ({
   const clearToken = () => {
     setToken(null);
 
-    redirect("/");
+    redirect("/home");
   };
   return (
     <TokenContext.Provider value={{ token, setToken, clearToken }}>
